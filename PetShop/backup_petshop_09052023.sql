@@ -14,12 +14,31 @@
 
 
 -- Copiando estrutura do banco de dados para petshop
-DROP DATABASE IF EXISTS `petshop`;
 CREATE DATABASE IF NOT EXISTS `petshop` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `petshop`;
 
+-- Copiando estrutura para tabela petshop.auditoria
+CREATE TABLE IF NOT EXISTS `auditoria` (
+  `codAuditoria` int(11) NOT NULL AUTO_INCREMENT,
+  `acao` varchar(400) DEFAULT NULL,
+  `tabela` varchar(400) DEFAULT NULL,
+  `dataHora` datetime DEFAULT NULL,
+  `usuario` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`codAuditoria`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COMMENT='Registra as principais alterações neste BD.';
+
+-- Copiando dados para a tabela petshop.auditoria: ~6 rows (aproximadamente)
+/*!40000 ALTER TABLE `auditoria` DISABLE KEYS */;
+INSERT INTO `auditoria` (`codAuditoria`, `acao`, `tabela`, `dataHora`, `usuario`) VALUES
+	(22, 'Cliente Inserido: [12] Pedro Franco Ferreira', 'cliente', '2023-05-09 10:46:18', 'root@localhost'),
+	(23, 'Cliente Alterado: [12] Pedro Franco Ferreira - CPF', 'cliente', '2023-05-09 10:46:26', 'root@localhost'),
+	(24, 'Cliente Removido: [12] Pedro Franco Ferreira', 'cliente', '2023-05-09 10:46:38', 'root@localhost'),
+	(28, 'Marca Inserida: [16] Magnus', 'marca', '2023-05-09 10:48:26', 'root@localhost'),
+	(29, 'Marca Alterada: [16] PremieR - Nome', 'marca', '2023-05-09 10:48:31', 'root@localhost'),
+	(30, 'Marca Removida: [16] PremieR', 'marca', '2023-05-09 10:48:34', 'root@localhost');
+/*!40000 ALTER TABLE `auditoria` ENABLE KEYS */;
+
 -- Copiando estrutura para tabela petshop.cargo
-DROP TABLE IF EXISTS `cargo`;
 CREATE TABLE IF NOT EXISTS `cargo` (
   `codCargo` int(11) NOT NULL AUTO_INCREMENT,
   `tipoCargo` varchar(200) NOT NULL,
@@ -41,7 +60,6 @@ INSERT INTO `cargo` (`codCargo`, `tipoCargo`, `salarioCargo`) VALUES
 /*!40000 ALTER TABLE `cargo` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela petshop.categoria
-DROP TABLE IF EXISTS `categoria`;
 CREATE TABLE IF NOT EXISTS `categoria` (
   `codCategoria` int(11) NOT NULL AUTO_INCREMENT,
   `nomeCategoria` varchar(100) NOT NULL,
@@ -61,7 +79,6 @@ INSERT INTO `categoria` (`codCategoria`, `nomeCategoria`) VALUES
 /*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela petshop.cliente
-DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE IF NOT EXISTS `cliente` (
   `codCliente` int(11) NOT NULL AUTO_INCREMENT,
   `nomeCliente` varchar(200) NOT NULL,
@@ -75,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `emailCliente` varchar(200) DEFAULT NULL,
   `telefoneCliente` varchar(45) NOT NULL,
   PRIMARY KEY (`codCliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- Copiando dados para a tabela petshop.cliente: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
@@ -87,7 +104,6 @@ INSERT INTO `cliente` (`codCliente`, `nomeCliente`, `enderecoCliente`, `bairroCl
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela petshop.funcionario
-DROP TABLE IF EXISTS `funcionario`;
 CREATE TABLE IF NOT EXISTS `funcionario` (
   `codFuncionario` int(11) NOT NULL AUTO_INCREMENT,
   `nomeFuncionario` varchar(200) NOT NULL,
@@ -120,7 +136,6 @@ INSERT INTO `funcionario` (`codFuncionario`, `nomeFuncionario`, `cpfFuncionario`
 /*!40000 ALTER TABLE `funcionario` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela petshop.item_venda
-DROP TABLE IF EXISTS `item_venda`;
 CREATE TABLE IF NOT EXISTS `item_venda` (
   `VENDA_codVenda` int(11) NOT NULL,
   `PRODUTO_codProduto` int(11) NOT NULL,
@@ -137,19 +152,18 @@ CREATE TABLE IF NOT EXISTS `item_venda` (
 /*!40000 ALTER TABLE `item_venda` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela petshop.marca
-DROP TABLE IF EXISTS `marca`;
 CREATE TABLE IF NOT EXISTS `marca` (
   `codMarca` int(11) NOT NULL AUTO_INCREMENT,
   `nomeMarca` varchar(100) NOT NULL,
   PRIMARY KEY (`codMarca`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela petshop.marca: ~7 rows (aproximadamente)
+-- Copiando dados para a tabela petshop.marca: ~8 rows (aproximadamente)
 /*!40000 ALTER TABLE `marca` DISABLE KEYS */;
 INSERT INTO `marca` (`codMarca`, `nomeMarca`) VALUES
 	(1, 'Pedigree'),
 	(3, 'Dog Chow'),
-	(4, 'ZEEDOG'),
+	(4, 'Zeedog'),
 	(5, 'Ibasa'),
 	(6, 'Chalesco'),
 	(11, 'Pro Plan'),
@@ -158,7 +172,6 @@ INSERT INTO `marca` (`codMarca`, `nomeMarca`) VALUES
 /*!40000 ALTER TABLE `marca` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela petshop.pet
-DROP TABLE IF EXISTS `pet`;
 CREATE TABLE IF NOT EXISTS `pet` (
   `codPet` int(11) NOT NULL AUTO_INCREMENT,
   `nomePet` varchar(200) NOT NULL,
@@ -181,7 +194,6 @@ INSERT INTO `pet` (`codPet`, `nomePet`, `tipoPet`, `racaPet`, `portePet`, `CLIEN
 /*!40000 ALTER TABLE `pet` ENABLE KEYS */;
 
 -- Copiando estrutura para procedure petshop.proc_alteraCargoSalario
-DROP PROCEDURE IF EXISTS `proc_alteraCargoSalario`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraCargoSalario`(in salario varchar(200), codCar int)
 BEGIN
@@ -190,7 +202,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraCargoTipo
-DROP PROCEDURE IF EXISTS `proc_alteraCargoTipo`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraCargoTipo`(in tipo varchar(200), codCar int)
 BEGIN
@@ -199,7 +210,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraCategoriaTipo
-DROP PROCEDURE IF EXISTS `proc_alteraCategoriaTipo`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraCategoriaTipo`(in nome varchar(200), in codCat int)
 BEGIN
@@ -208,7 +218,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraClienteBairro
-DROP PROCEDURE IF EXISTS `proc_alteraClienteBairro`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraClienteBairro`(in bairro varchar(100), in codCli int)
 BEGIN
@@ -217,7 +226,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraClienteCpf
-DROP PROCEDURE IF EXISTS `proc_alteraClienteCpf`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraClienteCpf`(in cpf varchar(20), in codCli int)
 BEGIN
@@ -226,7 +234,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraClienteEmail
-DROP PROCEDURE IF EXISTS `proc_alteraClienteEmail`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraClienteEmail`(in email varchar(200), in codCli int)
 BEGIN
@@ -235,7 +242,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraClienteEndereco
-DROP PROCEDURE IF EXISTS `proc_alteraClienteEndereco`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraClienteEndereco`(in endereco varchar(200), in codCli int)
 BEGIN
@@ -244,7 +250,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraClienteNascimento
-DROP PROCEDURE IF EXISTS `proc_alteraClienteNascimento`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraClienteNascimento`(in nascimento date, in codCli int)
 BEGIN
@@ -253,7 +258,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraClienteNome
-DROP PROCEDURE IF EXISTS `proc_alteraClienteNome`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraClienteNome`(in nome varchar(200), in codCli int)
 BEGIN
@@ -262,7 +266,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraClienteTelefone
-DROP PROCEDURE IF EXISTS `proc_alteraClienteTelefone`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraClienteTelefone`(in telefone varchar(100), in codCli int)
 BEGIN
@@ -271,7 +274,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraFuncionarioAdmissao
-DROP PROCEDURE IF EXISTS `proc_alteraFuncionarioAdmissao`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraFuncionarioAdmissao`(in admissao datetime, in codFun int)
 BEGIN
@@ -280,7 +282,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraFuncionarioCargo
-DROP PROCEDURE IF EXISTS `proc_alteraFuncionarioCargo`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraFuncionarioCargo`(in codCarg int, in codFun int)
 BEGIN
@@ -289,7 +290,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraFuncionarioCarteira
-DROP PROCEDURE IF EXISTS `proc_alteraFuncionarioCarteira`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraFuncionarioCarteira`(in carteira varchar (45), in codFun int)
 BEGIN
@@ -298,7 +298,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraFuncionarioCpf
-DROP PROCEDURE IF EXISTS `proc_alteraFuncionarioCpf`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraFuncionarioCpf`(in cpf varchar(50),in codFun int)
 BEGIN
@@ -307,7 +306,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraFuncionarioDemissao
-DROP PROCEDURE IF EXISTS `proc_alteraFuncionarioDemissao`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraFuncionarioDemissao`(in demissao datetime, in codFun int)
 BEGIN
@@ -316,7 +314,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraFuncionarioEmail
-DROP PROCEDURE IF EXISTS `proc_alteraFuncionarioEmail`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraFuncionarioEmail`(in email varchar (200), in codFun int)
 BEGIN
@@ -325,7 +322,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraFuncionarioEndereco
-DROP PROCEDURE IF EXISTS `proc_alteraFuncionarioEndereco`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraFuncionarioEndereco`(in endereco varchar(150), in codFun int)
 BEGIN
@@ -334,7 +330,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraFuncionarioNascimento
-DROP PROCEDURE IF EXISTS `proc_alteraFuncionarioNascimento`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraFuncionarioNascimento`(in nascimento date,in codFun int)
 BEGIN
@@ -343,7 +338,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraFuncionarioNome
-DROP PROCEDURE IF EXISTS `proc_alteraFuncionarioNome`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraFuncionarioNome`(in nome varchar(200),in codFun int)
 BEGIN
@@ -352,7 +346,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraFuncionarioTelefone
-DROP PROCEDURE IF EXISTS `proc_alteraFuncionarioTelefone`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraFuncionarioTelefone`(in telefone varchar(100), in codFun int)
 BEGIN
@@ -361,7 +354,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraMarcaNome
-DROP PROCEDURE IF EXISTS `proc_alteraMarcaNome`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraMarcaNome`(in marca varchar(150), in codMar int)
 BEGIN
@@ -370,7 +362,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraPetCliente
-DROP PROCEDURE IF EXISTS `proc_alteraPetCliente`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraPetCliente`(in codCli int, in codP int)
 BEGIN
@@ -379,7 +370,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraPetDono
-DROP PROCEDURE IF EXISTS `proc_alteraPetDono`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraPetDono`(in codCli int, in codP int)
 BEGIN
@@ -388,7 +378,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraPetNome
-DROP PROCEDURE IF EXISTS `proc_alteraPetNome`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraPetNome`(in nome varchar(200), in codP int)
 BEGIN
@@ -397,7 +386,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraPetPorte
-DROP PROCEDURE IF EXISTS `proc_alteraPetPorte`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraPetPorte`(in porte varchar (50), in codP int)
 BEGIN
@@ -406,7 +394,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraPetRaca
-DROP PROCEDURE IF EXISTS `proc_alteraPetRaca`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraPetRaca`(in raca varchar(100), in codP int)
 BEGIN
@@ -415,7 +402,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraPetTipo
-DROP PROCEDURE IF EXISTS `proc_alteraPetTipo`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraPetTipo`(in tipo varchar(100), in codP int)
 BEGIN
@@ -424,7 +410,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraProdutoCategoria
-DROP PROCEDURE IF EXISTS `proc_alteraProdutoCategoria`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraProdutoCategoria`(in codCat int, in codProd int)
 BEGIN
@@ -433,7 +418,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraProdutoMarca
-DROP PROCEDURE IF EXISTS `proc_alteraProdutoMarca`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraProdutoMarca`(in codMar int, in codProd int)
 BEGIN
@@ -442,7 +426,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraProdutoMLucro
-DROP PROCEDURE IF EXISTS `proc_alteraProdutoMLucro`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraProdutoMLucro`(in codProd int)
 BEGIN
@@ -451,7 +434,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraProdutoNome
-DROP PROCEDURE IF EXISTS `proc_alteraProdutoNome`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraProdutoNome`(in nome varchar(200), in codProd int)
 BEGIN
@@ -460,7 +442,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraProdutoPrecoC
-DROP PROCEDURE IF EXISTS `proc_alteraProdutoPrecoC`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraProdutoPrecoC`(in precoC decimal(10,2), in codProd int)
 BEGIN
@@ -469,7 +450,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraProdutoPrecoV
-DROP PROCEDURE IF EXISTS `proc_alteraProdutoPrecoV`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraProdutoPrecoV`(in precoV decimal(10,2), in codProd int)
 BEGIN
@@ -478,7 +458,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraProdutoQntEstoque
-DROP PROCEDURE IF EXISTS `proc_alteraProdutoQntEstoque`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraProdutoQntEstoque`(in qntEstoque decimal(10,2), in codProd int)
 BEGIN
@@ -487,7 +466,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraProdutoQntMinima
-DROP PROCEDURE IF EXISTS `proc_alteraProdutoQntMinima`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraProdutoQntMinima`(in qntMinima decimal(10,2), in codProd int)
 BEGIN
@@ -496,7 +474,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraProdutoValidade
-DROP PROCEDURE IF EXISTS `proc_alteraProdutoValidade`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraProdutoValidade`(in validade date, in codProd int)
 BEGIN
@@ -505,7 +482,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraServicoFuncionario
-DROP PROCEDURE IF EXISTS `proc_alteraServicoFuncionario`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraServicoFuncionario`(in codFun int, in codSer int)
 BEGIN
@@ -514,7 +490,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraServicoPVenda
-DROP PROCEDURE IF EXISTS `proc_alteraServicoPVenda`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraServicoPVenda`(in preco decimal(10,2), in codSer int)
 BEGIN
@@ -523,7 +498,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraServicoTipo
-DROP PROCEDURE IF EXISTS `proc_alteraServicoTipo`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraServicoTipo`(in tipo varchar(150), in codSer int)
 BEGIN
@@ -532,7 +506,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraVendaCliente
-DROP PROCEDURE IF EXISTS `proc_alteraVendaCliente`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraVendaCliente`(in codCli int, codV int)
 BEGIN
@@ -541,7 +514,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraVendaDataHora
-DROP PROCEDURE IF EXISTS `proc_alteraVendaDataHora`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraVendaDataHora`(in horaData datetime, in codV int)
 BEGIN
@@ -550,7 +522,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraVendaDesconto
-DROP PROCEDURE IF EXISTS `proc_alteraVendaDesconto`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraVendaDesconto`(in desconto decimal(4,2), in codV int)
 BEGIN
@@ -559,7 +530,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_alteraVendaTipo
-DROP PROCEDURE IF EXISTS `proc_alteraVendaTipo`;
 DELIMITER //
 CREATE PROCEDURE `proc_alteraVendaTipo`(in tipo varchar(150), in codV int)
 BEGIN
@@ -568,7 +538,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_deletaCargo
-DROP PROCEDURE IF EXISTS `proc_deletaCargo`;
 DELIMITER //
 CREATE PROCEDURE `proc_deletaCargo`(in codCarg int)
 BEGIN
@@ -577,7 +546,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_deletaCategoria
-DROP PROCEDURE IF EXISTS `proc_deletaCategoria`;
 DELIMITER //
 CREATE PROCEDURE `proc_deletaCategoria`(in codCat int)
 BEGIN
@@ -586,7 +554,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_deletaCliente
-DROP PROCEDURE IF EXISTS `proc_deletaCliente`;
 DELIMITER //
 CREATE PROCEDURE `proc_deletaCliente`(in codCli int)
 BEGIN
@@ -595,7 +562,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_deletaFuncionario
-DROP PROCEDURE IF EXISTS `proc_deletaFuncionario`;
 DELIMITER //
 CREATE PROCEDURE `proc_deletaFuncionario`(in codFun int)
 BEGIN
@@ -604,7 +570,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_deletaMarca
-DROP PROCEDURE IF EXISTS `proc_deletaMarca`;
 DELIMITER //
 CREATE PROCEDURE `proc_deletaMarca`(in codMar int)
 BEGIN
@@ -613,7 +578,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_deletaPet
-DROP PROCEDURE IF EXISTS `proc_deletaPet`;
 DELIMITER //
 CREATE PROCEDURE `proc_deletaPet`(in codP int )
 BEGIN
@@ -622,7 +586,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_deletaProduto
-DROP PROCEDURE IF EXISTS `proc_deletaProduto`;
 DELIMITER //
 CREATE PROCEDURE `proc_deletaProduto`(in codProd int)
 BEGIN
@@ -631,7 +594,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_deletaServico
-DROP PROCEDURE IF EXISTS `proc_deletaServico`;
 DELIMITER //
 CREATE PROCEDURE `proc_deletaServico`(in codSer int)
 BEGIN
@@ -640,7 +602,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_deletaVenda
-DROP PROCEDURE IF EXISTS `proc_deletaVenda`;
 DELIMITER //
 CREATE PROCEDURE `proc_deletaVenda`(in codV int)
 BEGIN
@@ -649,7 +610,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_insereCargo
-DROP PROCEDURE IF EXISTS `proc_insereCargo`;
 DELIMITER //
 CREATE PROCEDURE `proc_insereCargo`(in tipo varchar(200), in salario decimal(10,2))
 BEGIN
@@ -658,7 +618,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_insereCategoria
-DROP PROCEDURE IF EXISTS `proc_insereCategoria`;
 DELIMITER //
 CREATE PROCEDURE `proc_insereCategoria`(in categoria varchar (200))
 BEGIN
@@ -667,7 +626,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_insereCliente
-DROP PROCEDURE IF EXISTS `proc_insereCliente`;
 DELIMITER //
 CREATE PROCEDURE `proc_insereCliente`(in nome varchar(200), in cpf varchar(20), in endereco varchar(100), in bairro varchar (100), in nascimento date, in email varchar(150), in telefone varchar(100))
 BEGIN
@@ -676,7 +634,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_insereFuncionario
-DROP PROCEDURE IF EXISTS `proc_insereFuncionario`;
 DELIMITER //
 CREATE PROCEDURE `proc_insereFuncionario`(in nome varchar(200),in cpf varchar(20), in telefone varchar(100), in nascimento date, in endereco varchar(200), in carteira varchar (45), in emailFun varchar (150), in admissao datetime ,in demissao datetime, in codCarg int)
 BEGIN
@@ -685,7 +642,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_insereMarca
-DROP PROCEDURE IF EXISTS `proc_insereMarca`;
 DELIMITER //
 CREATE PROCEDURE `proc_insereMarca`(in marca varchar(100))
 BEGIN
@@ -694,7 +650,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_inserePet
-DROP PROCEDURE IF EXISTS `proc_inserePet`;
 DELIMITER //
 CREATE PROCEDURE `proc_inserePet`(in nome varchar(150), in tipo varchar(100),in raca varchar (100), in porte varchar(20), in codCli int)
 BEGIN
@@ -703,7 +658,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_insereProduto
-DROP PROCEDURE IF EXISTS `proc_insereProduto`;
 DELIMITER //
 CREATE PROCEDURE `proc_insereProduto`(in nome varchar(200), in precoC decimal(10,2), in precoV decimal(10,2),in validade date, in mLucro decimal(5,2), in qntEstoque decimal(10,2), in qntMinima decimal(10,2), in codCat int, in codMar int)
 BEGIN
@@ -712,7 +666,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_insereServico
-DROP PROCEDURE IF EXISTS `proc_insereServico`;
 DELIMITER //
 CREATE PROCEDURE `proc_insereServico`(in servico varchar (200), in preco decimal(10,2), in codFun int)
 BEGIN
@@ -721,7 +674,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para procedure petshop.proc_insereVenda
-DROP PROCEDURE IF EXISTS `proc_insereVenda`;
 DELIMITER //
 CREATE PROCEDURE `proc_insereVenda`(in horaData datetime, in tipo_venda ENUM('À vista', 'Pix', 'Cartão Débito', 'Cartão Crédito'), in desconto decimal(4,2), in codCli int)
 BEGIN
@@ -730,7 +682,6 @@ END//
 DELIMITER ;
 
 -- Copiando estrutura para tabela petshop.produto
-DROP TABLE IF EXISTS `produto`;
 CREATE TABLE IF NOT EXISTS `produto` (
   `codProduto` int(11) NOT NULL AUTO_INCREMENT,
   `nomeProduto` varchar(200) NOT NULL,
@@ -760,7 +711,6 @@ INSERT INTO `produto` (`codProduto`, `nomeProduto`, `precoCusto`, `precoVenda`, 
 /*!40000 ALTER TABLE `produto` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela petshop.servico
-DROP TABLE IF EXISTS `servico`;
 CREATE TABLE IF NOT EXISTS `servico` (
   `codServico` int(11) NOT NULL AUTO_INCREMENT,
   `tipoServico` varchar(150) NOT NULL,
@@ -783,7 +733,6 @@ INSERT INTO `servico` (`codServico`, `tipoServico`, `FUNCIONARIO_codFuncionario`
 /*!40000 ALTER TABLE `servico` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela petshop.servico_venda
-DROP TABLE IF EXISTS `servico_venda`;
 CREATE TABLE IF NOT EXISTS `servico_venda` (
   `SERVICO_codServico` int(11) NOT NULL,
   `VENDA_codVenda` int(11) NOT NULL,
@@ -800,7 +749,6 @@ CREATE TABLE IF NOT EXISTS `servico_venda` (
 /*!40000 ALTER TABLE `servico_venda` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela petshop.venda
-DROP TABLE IF EXISTS `venda`;
 CREATE TABLE IF NOT EXISTS `venda` (
   `codVenda` int(11) NOT NULL AUTO_INCREMENT,
   `dataHora` datetime NOT NULL,
@@ -822,7 +770,6 @@ INSERT INTO `venda` (`codVenda`, `dataHora`, `descontoVenda`, `tipoVenda`, `CLIE
 /*!40000 ALTER TABLE `venda` ENABLE KEYS */;
 
 -- Copiando estrutura para view petshop.v_relatoriocliente
-DROP VIEW IF EXISTS `v_relatoriocliente`;
 -- Criando tabela temporária para evitar erros de dependência de VIEW
 CREATE TABLE `v_relatoriocliente` (
 	`Codigo` INT(11) NOT NULL,
@@ -835,7 +782,6 @@ CREATE TABLE `v_relatoriocliente` (
 ) ENGINE=MyISAM;
 
 -- Copiando estrutura para view petshop.v_relatoriopet
-DROP VIEW IF EXISTS `v_relatoriopet`;
 -- Criando tabela temporária para evitar erros de dependência de VIEW
 CREATE TABLE `v_relatoriopet` (
 	`Codigo` INT(11) NOT NULL,
@@ -847,7 +793,6 @@ CREATE TABLE `v_relatoriopet` (
 ) ENGINE=MyISAM;
 
 -- Copiando estrutura para view petshop.v_relatorioprodutos
-DROP VIEW IF EXISTS `v_relatorioprodutos`;
 -- Criando tabela temporária para evitar erros de dependência de VIEW
 CREATE TABLE `v_relatorioprodutos` (
 	`Codigo` INT(11) NOT NULL,
@@ -859,20 +804,118 @@ CREATE TABLE `v_relatorioprodutos` (
 	`Estoque` DECIMAL(10,2) NULL
 ) ENGINE=MyISAM;
 
+-- Copiando estrutura para trigger petshop.tri_LogAlteraCPF
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `tri_LogAlteraCPF` AFTER UPDATE ON `cliente` FOR EACH ROW /*
+Trigger para inserir na tabela auditoria 
+um registro informando que o CPF de algum CLIENTE foi alterado
+*/
+BEGIN
+
+	IF(OLD.cpfCliente != NEW.cpfCliente) then
+	SET @mensagem = CONCAT("Cliente Alterado: [",NEW.codCliente,"] ",NEW.nomeCliente," - CPF");
+	INSERT INTO auditoria VALUES (NULL,@mensagem,"cliente",NOW(),USER());
+	END if;
+	
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Copiando estrutura para trigger petshop.tri_LogAlteraMarca
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `tri_LogAlteraMarca` AFTER UPDATE ON `marca` FOR EACH ROW BEGIN
+
+	IF(OLD.nomeMarca != NEW.nomeMarca) 
+		then
+			SET @mensagem = CONCAT("Marca Alterada: [",NEW.codMarca,"] ", NEW.nomeMarca," - Nome");
+			INSERT INTO auditoria VALUES (NULL,@mensagem,"marca",NOW(),USER());
+	END if;
+	
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Copiando estrutura para trigger petshop.tri_LogDeletaCliente
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `tri_LogDeletaCliente` AFTER DELETE ON `cliente` FOR EACH ROW /*
+Trigger para inserir na tabela auditoria 
+um registro informando que algum CLIENTE foi deletado
+*/
+BEGIN
+
+	SET @mensagem = CONCAT("Cliente Removido: [",OLD.codCliente,"] ",OLD.nomeCliente);
+	
+	INSERT INTO auditoria VALUES (NULL,@mensagem,"cliente",NOW(),USER());
+	
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Copiando estrutura para trigger petshop.tri_LogDeletaMarca
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `tri_LogDeletaMarca` AFTER DELETE ON `marca` FOR EACH ROW /*
+Trigger para inserir na tabela auditoria 
+um registro informando que alguma MARCA foi deletada
+*/
+BEGIN
+
+	SET @mensagem = CONCAT("Marca Removida: [",OLD.codMarca,"] ",OLD.nomeMarca);
+	
+	INSERT INTO auditoria VALUES (NULL,@mensagem,"marca",NOW(),USER());
+	
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Copiando estrutura para trigger petshop.tri_LogInsereCliente
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `tri_LogInsereCliente` AFTER INSERT ON `cliente` FOR EACH ROW /*
+Trigger para inserir na tabela auditoria 
+um registro informando que foi adicionado um novo CLIENTE
+*/
+BEGIN
+
+	SET @mensagem = CONCAT("Cliente Inserido: [",NEW.codCliente,"] ",NEW.nomeCliente);
+	
+	INSERT INTO auditoria VALUES (NULL,@mensagem,"cliente",NOW(),USER());
+	
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Copiando estrutura para trigger petshop.tri_LogInsereMarca
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `tri_LogInsereMarca` AFTER INSERT ON `marca` FOR EACH ROW /*
+Trigger para inserir na tabela auditoria 
+um registro informando que foi adicionado uma nova MARCA
+*/
+BEGIN
+
+	SET @mensagem = CONCAT("Marca Inserida: [",NEW.codMarca,"] ",NEW.nomeMarca);
+	
+	INSERT INTO auditoria VALUES (NULL,@mensagem,"marca",NOW(),USER());
+	
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
 -- Copiando estrutura para view petshop.v_relatoriocliente
-DROP VIEW IF EXISTS `v_relatoriocliente`;
 -- Removendo tabela temporária e criando a estrutura VIEW final
 DROP TABLE IF EXISTS `v_relatoriocliente`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_relatoriocliente` AS (select codCliente as Codigo, nomeCliente as Nome, cpfCliente as CPF, telefoneCliente as Telefone, emailCliente as Email, enderecoCliente as Endereco, bairroCliente as Bairro from cliente order by nomeCliente ASC) ;
 
 -- Copiando estrutura para view petshop.v_relatoriopet
-DROP VIEW IF EXISTS `v_relatoriopet`;
 -- Removendo tabela temporária e criando a estrutura VIEW final
 DROP TABLE IF EXISTS `v_relatoriopet`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_relatoriopet` AS (select codPet as Codigo, nomePet as Nome, tipoPet as Especie, racaPet as Raca, portePet as Porte, cliente.nomeCliente as Dono from pet inner join cliente where codCliente = CLIENTE_codCliente) ;
 
 -- Copiando estrutura para view petshop.v_relatorioprodutos
-DROP VIEW IF EXISTS `v_relatorioprodutos`;
 -- Removendo tabela temporária e criando a estrutura VIEW final
 DROP TABLE IF EXISTS `v_relatorioprodutos`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_relatorioprodutos` AS (select codProduto as Codigo, nomeProduto as Nome, categoria.nomeCategoria as Categoria, marca.nomeMarca as Marca, precoCusto as Custo, precoVenda 
