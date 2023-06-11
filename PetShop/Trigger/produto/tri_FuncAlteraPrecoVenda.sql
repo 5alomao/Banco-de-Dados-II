@@ -1,5 +1,5 @@
 DELIMITER $
-CREATE TRIGGER tri_FuncPrecoVenda
+CREATE TRIGGER tri_FuncAlteraPrecoVenda
 BEFORE UPDATE 
 ON produto
 FOR EACH ROW
