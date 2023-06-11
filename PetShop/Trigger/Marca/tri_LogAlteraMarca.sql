@@ -5,10 +5,9 @@ ON marca
 FOR EACH ROW
 BEGIN
 
-	IF(OLD.nomeMarca != NEW.nomeMarca) 
-		then
-			SET @mensagem = CONCAT("Marca Alterada: [",NEW.codMarca,"] ", NEW.nomeMarca);
-			INSERT INTO auditoria VALUES (NULL,@mensagem,"marca",NOW(),USER());
+	IF(OLD.nomeMarca != NEW.nomeMarca) then
+		SET @mensagem = CONCAT("Nome Alterado: ", OLD.nomeMarca, " para ",NEW.nomeMarca);
+		INSERT INTO logmarca VALUES (NULL, "Update", "marca", NEW.codMarca, @mensagem, USER(), NOW());
 	END if;
 	
 END$

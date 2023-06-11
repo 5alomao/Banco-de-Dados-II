@@ -4,7 +4,10 @@ AFTER DELETE
 ON marca
 FOR EACH ROW
 BEGIN
-	SET @mensagem = CONCAT("Marca [",OLD.codMarca,"] Removida: ",OLD.nomeMarca);
-	INSERT INTO auditoria VALUES (NULL,@mensagem,"marca",NOW(),USER());
+
+	SET @mensagem = CONCAT("Marca Removida: ",OLD.nomeMarca);
+	
+	INSERT INTO logmarca VALUES (NULL,"Delete","marca",OLD.codMarca,@mensagem,USER(),NOW());
+	
 END$
 DELIMITER ;

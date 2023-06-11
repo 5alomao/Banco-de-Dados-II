@@ -4,7 +4,10 @@ AFTER INSERT
 ON marca
 FOR EACH ROW
 BEGIN
-	SET @mensagem = CONCAT("Marca Inserida: ",NEW.nomeMarca);
-	INSERT INTO auditoria VALUES (NULL,@mensagem,"marca",NOW(),USER());
+
+	SET @mensagem = CONCAT("Marca Inserida: ", NEW.nomeMarca);
+	
+	INSERT INTO logmarca VALUES (NULL,"Insert","marca",NEW.codMarca,@mensagem, USER(), NOW());
+	
 END$
 DELIMITER ;
