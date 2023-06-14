@@ -3,7 +3,7 @@ CREATE VIEW v_Produtos AS
 p.nomeProduto as Nome, 
 cat.nomeCategoria AS "Categoria", 
 mar.nomeMarca AS "Marca", 
-p.precoVenda AS "Valor", 
+p.precoVenda AS "Valor (R$)", 
 p.quantidadeEstoque as Estoque 
 from produto p
 inner join marca mar, 

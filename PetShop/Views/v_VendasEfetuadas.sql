@@ -1,5 +1,5 @@
 
-CREATE VIEW v_Vendas AS (
+CREATE VIEW v_VendasEfetuadas AS (
 SELECT v.codVenda AS "Venda",
 cli.nomeCliente AS "Cliente",
 p.nomeProduto AS "Produto",
